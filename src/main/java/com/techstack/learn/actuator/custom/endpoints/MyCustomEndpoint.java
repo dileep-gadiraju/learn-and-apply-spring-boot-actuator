@@ -1,4 +1,4 @@
-package com.techstack.learn.actuator.actuator;
+package com.techstack.learn.actuator.custom.endpoints;
 
 import org.springframework.boot.actuate.endpoint.annotation.Endpoint;
 import org.springframework.boot.actuate.endpoint.annotation.ReadOperation;
