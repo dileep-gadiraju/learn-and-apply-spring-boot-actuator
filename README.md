@@ -349,6 +349,74 @@ Spring Boot Admin UI. For more information refer below links.
 * [Spring Boot Admin - JMX Bean Management](https://codecentric.github.io/spring-boot-admin/1.4.6/#jmx-bean-management)
 * [Jolokia - Reference](https://jolokia.org/)
 
+## Setting up Logging
+By default Spring Boot application is setting up with `INFO` level logging. Let's look at below service class.  
+Inorder to execute your `@Scheduled` service, you have to `@EnableScheduling` in your Spring Boot application.
+```java
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
 
+@Service
+public class LogOutputGeneratorService {
 
+    private static Logger log = LoggerFactory.getLogger(LogOutputGeneratorService.class);
+
+    @Scheduled(fixedDelay = 5000)
+    public void createLogEntries(){
+        log.trace("This is a TRACE message");
+        log.debug("This is a DEBUG message");
+        log.info("This is a INFO message");
+        log.warn("This is a WARN message");
+        log.error("This is an ERROR message");
+    }
+}
+```
+The above method would print the following `log` messages in your console.
+```textmate
+2020-04-13 15:54:31.036  INFO 4252 --- [   scheduling-1] c.t.l.a.s.LogOutputGeneratorService      : This is a INFO message
+2020-04-13 15:54:31.036  WARN 4252 --- [   scheduling-1] c.t.l.a.s.LogOutputGeneratorService      : This is a WARN message
+2020-04-13 15:54:31.036 ERROR 4252 --- [   scheduling-1] c.t.l.a.s.LogOutputGeneratorService      : This is an ERROR message
+```
+
+#### How to change log level?
+In order to change your application logging level
+* You can setup log level in `application.properties`
+* You can put it in system properties
+* You can use JVM properties
+
+```properties
+logging.level.com.techstack.learn.actuator.services.LogOutputGeneratorService=trace
+```
+
+Note: Application restart is required.
+
+```textmate
+2020-04-13 16:00:28.635 TRACE 4273 --- [   scheduling-1] c.t.l.a.s.LogOutputGeneratorService      : This is a TRACE message
+2020-04-13 16:00:28.635 DEBUG 4273 --- [   scheduling-1] c.t.l.a.s.LogOutputGeneratorService      : This is a DEBUG message
+2020-04-13 16:00:28.635  INFO 4273 --- [   scheduling-1] c.t.l.a.s.LogOutputGeneratorService      : This is a INFO message
+2020-04-13 16:00:28.635  WARN 4273 --- [   scheduling-1] c.t.l.a.s.LogOutputGeneratorService      : This is a WARN message
+2020-04-13 16:00:28.635 ERROR 4273 --- [   scheduling-1] c.t.l.a.s.LogOutputGeneratorService      : This is an ERROR message
+```
+
+#### How to Change Logging Properties during Runtime?
+Let see the current logging level for your configured `log`
+```thymeleafurlexpressions
+http://localhost:8081/actuator
+http://localhost:8081/actuator/loggers/com.techstack.learn.actuator.services.LogOutputGeneratorService
+```
+
+```json
+{
+    "configuredLevel": "TRACE",
+    "effectiveLevel": "TRACE"
+}
+```
+
+In order to change your application `log` level for your application, you can hit `POST` method
+
+```http request
+curl -i -X POST -H 'Content-Type: application/json' -d '{"configuredLevel": "INFO"}' http://localhost:8081/actuator/loggers/com.techstack.learn.actuator.services.LogOutputGeneratorService
+```
 
