@@ -23,19 +23,19 @@ Add the following dependency in your pom file. Don't add version number. It is m
 {
    "_links":{
       "self":{
-         "href":"http://localhost:8081/actuator",
+         "href":"http://localhost:8085/actuator",
          "templated":false
       },
       "health":{
-         "href":"http://localhost:8081/actuator/health",
+         "href":"http://localhost:8085/actuator/health",
          "templated":false
       },
       "health-path":{
-         "href":"http://localhost:8081/actuator/health/{*path}",
+         "href":"http://localhost:8085/actuator/health/{*path}",
          "templated":true
       },
       "info":{
-         "href":"http://localhost:8081/actuator/info",
+         "href":"http://localhost:8085/actuator/info",
          "templated":false
       }
    }
