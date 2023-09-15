@@ -9,7 +9,7 @@ import java.util.Random;
 /**
  * @author Karthikeyan Nithiyanandam
  */
-@Component
+@Component("CustomRandChecks")
 public class MyCustomHealthIndicator implements HealthIndicator {
 
     @Override
