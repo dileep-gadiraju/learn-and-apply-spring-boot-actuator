@@ -23,7 +23,7 @@ public class KafkaHealthIndicator  implements HealthIndicator {
     @Autowired
     private KafkaTemplate<String, Object> KafkaTemplate;
 
-    @Value("${kafka.health.indicator.timeout.ms:100}")
+    @Value("${kafka.health.indicator.timeout.ms:10000}")
     private int timeout;
 
     public KafkaHealthIndicator(KafkaTemplate<String, Object> KafkaTemplate) {
@@ -43,8 +43,9 @@ public class KafkaHealthIndicator  implements HealthIndicator {
     @Override
     public Health health() {
         try {
-            java.util.Map<org.apache.kafka.common.MetricName, ? extends org.apache.kafka.common.Metric> map=KafkaTemplate.metrics();
-        } catch (Exception e) {
+            //java.util.Map<org.apache.kafka.common.MetricName, ? extends org.apache.kafka.common.Metric> map=KafkaTemplate.metrics();
+            KafkaTemplate.send("kafka-health-indicator", "❥").get(timeout, TimeUnit.MILLISECONDS);
+        } catch (InterruptedException | ExecutionException | TimeoutException | NullPointerException e) {
             log.error("[kafka-health-indicator]: Kafka Health Down! Caught cause: {}", e);
             return Health.down(e).build();
         }
