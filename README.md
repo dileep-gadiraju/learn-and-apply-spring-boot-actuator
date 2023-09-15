@@ -425,9 +425,9 @@ curl -i -X POST -H 'Content-Type: application/json' -d '{"configuredLevel": "INF
 ```Install & Start Kafka
 1. brew install kafka
 2. Create zookeeper.properties at /Users/2604309/kafka
-3. zookeeper-server-start /Users/2604309/kafka/zookeeper.properties
-3. Create server.properties at /Users/2604309/kafka
-4. kafka-server-start /Users/2604309/kafka/server.properties
+3. zookeeper-server-start /Users/xxx/kafka/zookeeper.properties
+3. Create server.properties at /Users/xxx/kafka
+4. kafka-server-start /Users/xxx/kafka/server.properties
 5. kafka-topics --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic test
 6. kafka-console-producer --broker-list localhost:9092 --topic test
 7. kafka-topics --delete --topic test --bootstrap-server localhost:9092
