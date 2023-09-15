@@ -432,3 +432,7 @@ curl -i -X POST -H 'Content-Type: application/json' -d '{"configuredLevel": "INF
 6. kafka-console-producer --broker-list localhost:9092 --topic test
 7. kafka-topics --delete --topic test --bootstrap-server localhost:9092
 ```
+8. kafka-console-consumer --topic kafka-health-indicator --from-beginning --bootstrap-server localhost:9092 
+9. kafka-run-class kafka.tools.GetOffsetShell --broker-list localhost:9092 --topic kafka-health-indicator
+10. kafka-run-class kafka.tools.GetOffsetShell --broker-list localhost:9092 --topic test
+```
